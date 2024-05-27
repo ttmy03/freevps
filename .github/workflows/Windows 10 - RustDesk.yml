@@ -17,6 +17,3 @@ jobs:
       run: |
         curl --proto '=https' --tlsv1.2 -sSf https://rustdesk.com/install.sh | sh
         sudo systemctl enable rustdesk && sudo systemctl start rustdesk
-      env:
-        RUSTDESK_ID: ${{ secrets.1346983981 }}
-        RUSTDESK_PASSWORD: ${{ secrets.Disalardp1 }}
