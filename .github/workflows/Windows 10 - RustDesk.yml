@@ -1,31 +1,22 @@
-name: Windows - RustDesk
+name: Start Linux VPS and Setup RustDesk
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-    name: Start Building...
-    runs-on: windows-latest
-    timeout-minutes: 9999
+  deploy:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Downloading & Installing Essentials
-        run: |
-          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/qdyd4p9t6xoabl95n5o3g/Downloads.bat?rlkey=snr74vv1vr8k5suujugvrhjtm&dl=1" -OutFile "Downloads.bat"
-          Get-Content Downloads.bat | Set-Content -Encoding UTF8 Downloads.bat  # Ensure encoding is correct
-          cmd /c Downloads.bat
-        shell: pwsh
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Log In To AnyDesk
-        run: cmd /c show.bat
-
-      - name: Time Counter
-        run: python time.py
-
-      - name: Debugging Network Issues
-        run: |
-          echo Checking network connectivity...
-          ping rs-ny.rustdesk.com
-          tracert rs-ny.rustdesk.com
-          netstat -an | findstr 21116
+    - name: Install RustDesk on GitHub-hosted runner
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://rustdesk.com/install.sh | sh
+        sudo systemctl enable rustdesk && sudo systemctl start rustdesk
+      env:
+        RUSTDESK_ID: ${{ secrets.1346983981 }}
+        RUSTDESK_PASSWORD: ${{ secrets.Disalardp1 }}
