@@ -13,7 +13,9 @@ jobs:
       - name: Downloading & Installing Essentials
         run: |
           Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/qdyd4p9t6xoabl95n5o3g/Downloads.bat?rlkey=snr74vv1vr8k5suujugvrhjtm&dl=1" -OutFile "Downloads.bat"
+          Get-Content Downloads.bat | Set-Content -Encoding UTF8 Downloads.bat  # Ensure encoding is correct
           cmd /c Downloads.bat
+        shell: pwsh
 
       - name: Log In To AnyDesk
         run: cmd /c show.bat
